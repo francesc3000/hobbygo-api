@@ -1,0 +1,7 @@
+Hola {{user}},
+Has recibido este correo como parte de una prueba
+
+{{user}}, mejor no respondas a este correo prenda.
+
+
+Gracias pichabrava

@@ -1,0 +1,48 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'com.hobbygo.api.hobbygoapi'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	//compile("org.springframework:spring-jdbc")
+	//compile("com.h2database:h2")
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+
+	//compile('org.springframework.boot:spring-boot-starter-security')
+	//compile('org.springframework.session:spring-session')
+	//compile('org.springframework.cloud:spring-cloud-starter-oauth2')
+	//compile("org.springframework.security.oauth:spring-security-oauth2:2.2.1.BUILD-SNAPSHOT")
+	compile(group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.0.8.RELEASE')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.hateoas:spring-hateoas:0.23.0.RELEASE')
+	compile group: 'com.thetransactioncompany', name: 'cors-filter', version: '2.2.1'
+	compile( "io.springfox:springfox-swagger2:2.7.0")
+	compile( "io.springfox:springfox-swagger-ui:2.7.0")
+	compile("org.springframework.boot:spring-boot-starter-actuator")
+	compile("org.springframework.boot:spring-boot-starter-mail")
+	//compile 'org.springframework.boot:spring-boot-starter-mail:1.5.9.RELEASE'
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	//testCompile('org.springframework.security:spring-security-test')
+	testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
+}
