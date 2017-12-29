@@ -5,7 +5,7 @@ import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.restapi.dto.CreateEventoDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyEventoDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyPlayDto;
-import com.hobbygo.api.hobbygoapi.restapi.dto.ScorePlayersDto;
+import com.hobbygo.api.hobbygoapi.restapi.dto.RatingPlayersDto;
 import com.hobbygo.api.hobbygoapi.restapi.resource.EventoResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.FactoryResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.PlayerResource;
@@ -136,12 +136,12 @@ public class EventoRestController {
 
     @PreAuthorize(UserRestController.ADMIN + " or " + UserRestController.OWNER)
     @RequestMapping(value = "/{eventoId}/{playId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EventoResource> score2Players(@PathVariable String userName,
+    public ResponseEntity<EventoResource> ratingPlayers(@PathVariable String userName,
                                                         @PathVariable String eventoId,
                                                         @PathVariable String playId,
-                                                        @RequestBody ScorePlayersDto scorePlayersDto){
+                                                        @RequestBody RatingPlayersDto ratingPlayersDto){
 
-        Evento evento = eventoService.score2Players(userName, eventoId, playId, scorePlayersDto);
+        Evento evento = eventoService.ratingPlayers(userName, eventoId, playId, ratingPlayersDto);
 
         if(evento==null)
             return ResponseEntity.status(HttpStatus.NOT_MODIFIED)

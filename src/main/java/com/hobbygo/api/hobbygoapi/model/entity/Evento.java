@@ -251,11 +251,11 @@ public class Evento {
         return getFlowChart().get(i);
     }
 
-    public Boolean setPlayerScore(String playId, Player player, Double score) {
+    public Boolean addPlayerRating(String playId, Player player, Double score) {
         Play play = getPlayFromFlowChartById(playId);
         if(play!=null)
             if(play.isPlayerScoreable(player))
-                return player.setScore(score);
+                return player.addRating(score);
 
         return false;
     }

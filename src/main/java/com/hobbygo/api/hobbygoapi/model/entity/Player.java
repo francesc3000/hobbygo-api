@@ -18,6 +18,7 @@ public class Player {
     private String email;
     private String userName;
     private String avatar;
+    private Ranking ranking;
 
     private Map<Hobby,PlayerHobby> playerHobbyList;
     @DBRef
@@ -52,6 +53,7 @@ public class Player {
         setEmail(email);
         setUserId(userId);
         setAvatar(avatar);
+        setRanking(new Ranking());
 
         playerHobbyList = new HashMap<>();
         groupList = new ArrayList<>();
@@ -242,9 +244,19 @@ public class Player {
         return getFavoriteEventoList().contains(evento);
     }
 
-    public Boolean setScore(Double score) {
+    private Ranking getRanking() {
+        return ranking;
+    }
 
-        ///this.score = score;
-        return true;
+    private void setRanking(Ranking ranking) {
+        this.ranking = ranking;
+    }
+
+    public Boolean addRating(Double rating) {
+        return getRanking().addRating(rating);
+    }
+
+    public Double getRating(){
+        return getRanking().getRating();
     }
 }

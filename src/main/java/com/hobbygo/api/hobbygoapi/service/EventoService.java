@@ -11,7 +11,7 @@ import com.hobbygo.api.hobbygoapi.restapi.advice.ValidatingUserRepositoryDecorat
 import com.hobbygo.api.hobbygoapi.restapi.dto.CreateEventoDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyEventoDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyPlayDto;
-import com.hobbygo.api.hobbygoapi.restapi.dto.ScorePlayersDto;
+import com.hobbygo.api.hobbygoapi.restapi.dto.RatingPlayersDto;
 import com.hobbygo.api.hobbygoapi.service.mapping.EventoMapping;
 import com.hobbygo.api.hobbygoapi.model.entity.Group;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -204,15 +204,15 @@ public class EventoService {
     }
 
     @PreAuthorize("@eventoSecurityService.canModifyEvento(#userName, #eventoId)")
-    public Evento score2Players(String userName, String eventoId, String playId, ScorePlayersDto scorePlayersDto) {
+    public Evento ratingPlayers(String userName, String eventoId, String playId, RatingPlayersDto ratingPlayersDto) {
         User user = validatingUserRepositoryDecorator.findAccountValidated(userName);
         Evento evento = eventoDao.findById(eventoId);
         //Player player = playerDao.findById(user.getPlayerId());
 
-        for(Map.Entry<String,Double> scorePlayers:scorePlayersDto.getScorePlayers().entrySet()) {
-            Player player2score = playerDao.findByUserName(scorePlayers.getKey());
-            if(player2score!=null)
-                evento.setPlayerScore(playId, player2score, scorePlayers.getValue());
+        for(Map.Entry<String,Double> ratingPlayers: ratingPlayersDto.getRatingPlayers().entrySet()) {
+            Player player2rate = playerDao.findByUserName(ratingPlayers.getKey());
+            if(player2rate!=null)
+                evento.addPlayerRating(playId, player2rate, ratingPlayers.getValue());
         }
 
         eventoDao.save(evento);
