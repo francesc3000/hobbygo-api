@@ -1,4 +1,4 @@
-package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2v1;
+package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2;
 
 import com.hobbygo.api.hobbygoapi.security.RepositoryUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

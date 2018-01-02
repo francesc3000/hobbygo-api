@@ -1,8 +1,6 @@
-package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2v1;
+package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2;
 
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 

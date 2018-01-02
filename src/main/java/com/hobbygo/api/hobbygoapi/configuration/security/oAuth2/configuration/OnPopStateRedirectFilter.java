@@ -1,4 +1,4 @@
-package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2v1.configuration;
+package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

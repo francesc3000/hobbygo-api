@@ -7,8 +7,11 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Document(collection = "users")
 public class User {
@@ -33,6 +36,10 @@ public class User {
     private String playerId;
 
     private String roles[];
+
+    private LocalDateTime joinDate;
+
+    private Locale locale;
 
     public String getId() {
         return id;
@@ -88,5 +95,21 @@ public class User {
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
+    }
+
+    public LocalDateTime getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(LocalDateTime joinDate) {
+        this.joinDate = joinDate;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
     }
 }

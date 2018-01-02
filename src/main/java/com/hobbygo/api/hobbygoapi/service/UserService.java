@@ -1,6 +1,6 @@
 package com.hobbygo.api.hobbygoapi.service;
 
-import com.hobbygo.api.hobbygoapi.configuration.security.oAuth2v1.configuration.ApplicationConfigurationProperties;
+import com.hobbygo.api.hobbygoapi.configuration.security.oAuth2.configuration.ApplicationConfigurationProperties;
 import com.hobbygo.api.hobbygoapi.dao.PlayerDao;
 import com.hobbygo.api.hobbygoapi.dao.UserDao;
 import com.hobbygo.api.hobbygoapi.model.constants.Hobby;
@@ -14,7 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -77,6 +79,8 @@ public class UserService {
         );
 
         user.setRoles(configurationProperties.getDefaultUserRoles());
+        user.setJoinDate(LocalDateTime.now());
+        user.setLocale(new Locale("es","ES"));
     }
 
     private void updateUser(User user, ModifyUserDto userDto) {
