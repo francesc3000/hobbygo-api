@@ -18,7 +18,7 @@ public class VerificationTokenResourceAssembler extends ResourceAssemblerSupport
 
     @Override
     public VerificationTokenResource toResource(VerificationToken token) {
-        return createResourceWithId(token.getId(),token);
+        return createResourceWithId(token.getToken(),token);
     }
 
     @Override
