@@ -46,4 +46,8 @@ public class PlayerDao {
     public Player findByUserName(String userName) {
         return playerRepository.findByUserName(userName);
     }
+
+    public void delete(Player player) {
+        playerRepository.delete(player);
+    }
 }

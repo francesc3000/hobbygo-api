@@ -59,6 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/api/v1").permitAll()
                 .antMatchers("/api/v1/users").permitAll()
+                .antMatchers("/api/v1/users/registrationConfirm").permitAll()
                 .antMatchers("/api/v1/distance").permitAll()
                 .antMatchers("/api/v1/distanceCount").permitAll()
                 //.antMatchers("/api/**").hasRole("OWNER")

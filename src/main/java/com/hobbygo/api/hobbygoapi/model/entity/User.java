@@ -2,9 +2,11 @@ package com.hobbygo.api.hobbygoapi.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidEmail;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -22,7 +24,9 @@ public class User {
 
     @NotNull
     @JsonDeserialize
+    @NotEmpty
     private String password;
+    private String matchingPassword;
 
     @NotNull
     private String userName;
@@ -30,10 +34,15 @@ public class User {
     @NotNull
     private String fullName;
 
+    @ValidEmail
+    @NotNull
+    @NotEmpty
     private String email;
 
     @NotNull
     private String playerId;
+
+    private boolean enabled;
 
     private String roles[];
 
@@ -41,11 +50,24 @@ public class User {
 
     private Locale locale;
 
+    public User(String email, String fullName, String userName, String password, String[] roles, Locale locale){
+
+        setEmail(email);
+        setFullName(fullName);
+        setUserName(userName);
+        setPassword(password);
+
+        setRoles(roles);
+        setJoinDate(LocalDateTime.now());
+        setLocale(locale);
+        setEnabled(false);
+    }
+
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    private void setId(String id) {
         this.id = id;
     }
 
@@ -53,7 +75,7 @@ public class User {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    private void setUserName(String userName) {
         this.userName = userName;
     }
 
@@ -62,7 +84,16 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        this.password = passwordEncoder.encode(password);
+    }
+
+    public String getMatchingPassword() {
+        return matchingPassword;
+    }
+
+    public void setMatchingPassword(String matchingPassword) {
+        this.matchingPassword = matchingPassword;
     }
 
     public String getFullName() {
@@ -85,7 +116,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    private void setEmail(String email) {
         this.email = email;
     }
 
@@ -101,7 +132,7 @@ public class User {
         return joinDate;
     }
 
-    public void setJoinDate(LocalDateTime joinDate) {
+    private void setJoinDate(LocalDateTime joinDate) {
         this.joinDate = joinDate;
     }
 
@@ -109,7 +140,15 @@ public class User {
         return locale;
     }
 
-    public void setLocale(Locale locale) {
+    private void setLocale(Locale locale) {
         this.locale = locale;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

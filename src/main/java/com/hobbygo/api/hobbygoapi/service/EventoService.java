@@ -188,7 +188,7 @@ public class EventoService {
         //evento.addAsFavoritePlayer(player);
 
         return playerDao.save(player);
-        //return eventoDao.save(evento);
+        //return eventoDao.registerNewUserAccount(evento);
     }
 
     public Player nonfavorite(String userName, String eventoId) {
@@ -200,7 +200,7 @@ public class EventoService {
         //evento.removeAsFavoritePlayer(player);
 
         return playerDao.save(player);
-        //return eventoDao.save(evento);
+        //return eventoDao.registerNewUserAccount(evento);
     }
 
     @PreAuthorize("@eventoSecurityService.canModifyEvento(#userName, #eventoId)")

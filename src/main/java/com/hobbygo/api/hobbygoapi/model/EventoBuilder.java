@@ -65,7 +65,7 @@ public class EventoBuilder {
                     playerDao.save(member.getPlayer());
                     getEvento().addGroup(group);
                     getGroupList().add(group);
-                    //membersWithNoGroup.remove(iterator);
+                    //membersWithNoGroup.delete(iterator);
                     z++;
                     iterator++;
                 }

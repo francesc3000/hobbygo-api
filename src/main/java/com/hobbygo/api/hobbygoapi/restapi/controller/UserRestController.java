@@ -2,6 +2,7 @@ package com.hobbygo.api.hobbygoapi.restapi.controller;
 
 import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.model.entity.User;
+import com.hobbygo.api.hobbygoapi.model.registration.VerificationToken;
 import com.hobbygo.api.hobbygoapi.restapi.advice.ValidatingUserRepositoryDecorator;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ContactDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.CreateUserDto;
@@ -10,9 +11,9 @@ import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotFoundException;
 import com.hobbygo.api.hobbygoapi.restapi.resource.FactoryResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.PlayerResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.UserResource;
+import com.hobbygo.api.hobbygoapi.restapi.resource.VerificationTokenResource;
 import com.hobbygo.api.hobbygoapi.service.PlayerService;
 import com.hobbygo.api.hobbygoapi.service.UserService;
-import com.hobbygo.api.hobbygoapi.service.exception.UpdatedUserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,6 +25,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,13 +86,9 @@ public class UserRestController {
     }
 */
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResource> createUser(@Validated @RequestBody CreateUserDto userDto) {
+    public ResponseEntity<UserResource> createUser(@Validated @RequestBody CreateUserDto userDto, HttpServletRequest request) {
 
-        if (userService.findByUserName(userDto.getUserName()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
-
-        User savedUser = userService.save(userDto);
+        User savedUser = userService.registerNewUserAccount(userDto, request);
 
         return ResponseEntity.created(
                 linkTo(methodOn(UserRestController.class).getUser(savedUser.getUserName()))
@@ -100,17 +98,30 @@ public class UserRestController {
         );
     }
 
+    @RequestMapping(path = "/registrationConfirm", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<VerificationTokenResource> confirmRegistration(HttpServletRequest request, @RequestParam("token") String token) {
+
+        final String result = userService.validateVerificationToken(token);
+
+        switch (result){
+            case UserService.TOKEN_VALID:
+                VerificationToken verificationToken = userService.findByToken(token);
+                userService.newUserValidatedPhase2(verificationToken.getUser());
+                return ResponseEntity.ok(factoryResource.getTokenResource(verificationToken,result));
+
+                default:
+                    return ResponseEntity.unprocessableEntity()
+                            .body(factoryResource.getTokenResource(new VerificationToken(token),result));
+        }
+    }
+
+
     @PreAuthorize(ADMIN)
     @RequestMapping(path = "/{userName}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResource> modifyUser(@PathVariable String userName,
                                                    @Validated @RequestBody ModifyUserDto userDto) {
 
-        User savedUser;
-        try {
-            savedUser = userService.save(userDto, userName);
-        } catch (UpdatedUserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        User savedUser = userService.modifyUserAccount(userDto, userName);
 
         return ResponseEntity.ok(
                 factoryResource.getUserResource(savedUser)

@@ -3,9 +3,6 @@ package com.hobbygo.api.hobbygoapi.restapi.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created by ala on 9.5.16.
- */
 public class ModifyUserDto {
 
     @NotNull

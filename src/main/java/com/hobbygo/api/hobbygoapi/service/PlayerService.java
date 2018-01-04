@@ -109,7 +109,7 @@ public class PlayerService {
         Player player = playerDao.findById(user.getPlayerId());
 
         player.addAllCandidates(ContactMapping.mapCandidateListDto2CandidateList(candidatesDto));
-        Player playerRet = playerDao.save(player);
+        Player playerRet = playerDao.registerNewUserAccount(player);
         //TODO: Enviar por correo inviatación a la aplicación
 
         return playerRet;

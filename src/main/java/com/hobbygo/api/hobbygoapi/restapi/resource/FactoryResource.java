@@ -5,10 +5,8 @@ import com.hobbygo.api.hobbygoapi.model.entity.Evento;
 import com.hobbygo.api.hobbygoapi.model.entity.Group;
 import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.model.entity.User;
-import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.EventoResourceAssembler;
-import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.GroupResourceAssembler;
-import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.PlayerResourceAssembler;
-import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.UserResourceAssembler;
+import com.hobbygo.api.hobbygoapi.model.registration.VerificationToken;
+import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.*;
 import com.hobbygo.api.hobbygoapi.security.EventoSecurityService;
 import com.hobbygo.api.hobbygoapi.security.GroupSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,4 +54,9 @@ public class FactoryResource {
         return assembler.toResource(group);
     }
 
+    public VerificationTokenResource getTokenResource(VerificationToken verificationTokenToken, String tokenStatus) {
+        VerificationTokenResourceAssembler assembler = new VerificationTokenResourceAssembler(verificationTokenToken, tokenStatus);
+
+        return assembler.toResource(verificationTokenToken);
+    }
 }

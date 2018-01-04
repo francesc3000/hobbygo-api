@@ -27,13 +27,15 @@ public class UserResourceAssembler extends ResourceAssemblerSupport<User,UserRes
                 ).getUser(user.getUserName())
         ).withSelfRel());
 
-        userResource.add(linkTo(methodOn(
-                GroupRestController.class
-                ).getAllGroups(user.getUserName())
-        ).withRel("groups"));
+        if(user.isEnabled()) {
+            userResource.add(linkTo(methodOn(
+                    GroupRestController.class
+                    ).getAllGroups(user.getUserName())
+            ).withRel("groups"));
 
-        userResource.add(linkTo(methodOn(EventoRestController.class
-        ).getAllEventos(user.getUserName())).withRel("eventos"));
+            userResource.add(linkTo(methodOn(EventoRestController.class
+            ).getAllEventos(user.getUserName())).withRel("eventos"));
+        }
 
         return userResource;
     }

@@ -277,7 +277,7 @@ public class Evento {
     }
 
     public void removeAsFavoritePlayer(Player player) {
-        getPlayersImFavorite().remove(player);
+        getPlayersImFavorite().delete(player);
     }
 
     public List<Player> getPlayersImFavorite() {
