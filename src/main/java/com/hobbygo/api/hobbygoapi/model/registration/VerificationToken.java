@@ -73,9 +73,9 @@ public class VerificationToken {
 
     private LocalDateTime calculateExpiryDate(final int expiryTimeInMinutes) {
         LocalDateTime today = LocalDateTime.now();
-        today.plus(expiryTimeInMinutes, MINUTES);
+        LocalDateTime calculateExpiryDate = today.plus(expiryTimeInMinutes, MINUTES);
 
-        return today;
+        return calculateExpiryDate;
     }
 
     public void updateToken(final String token) {

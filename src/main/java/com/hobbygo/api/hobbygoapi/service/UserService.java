@@ -73,7 +73,7 @@ public class UserService {
                     (createdUser, request.getLocale(), request.getContextPath()));
         } catch (Exception me) {
             userDao.delete(createdUser);
-            throw new SendConfirmationEmailException();
+            throw new SendConfirmationEmailException(me.getMessage());
         }
 
         return createdUser;

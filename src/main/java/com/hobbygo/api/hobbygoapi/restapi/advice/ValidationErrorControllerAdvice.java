@@ -15,8 +15,8 @@ public class ValidationErrorControllerAdvice {
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    VndErrors userNotFoundExceptionHandler(UserNotFoundException ex) {
-        return new VndErrors("error", ex.getMessage());
+    VndErrors.VndError userNotFoundExceptionHandler(UserNotFoundException ex) {
+        return new VndErrors.VndError("error", ex.getMessage());
     }
 
 /*
@@ -31,29 +31,29 @@ public class ValidationErrorControllerAdvice {
     @ResponseBody
     @ExceptionHandler(DateParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    VndErrors dateParseExceptionHandler(DateParseException ex) {
-        return new VndErrors("validation_error", errorMessage(ex.getField(), ex.getValue()));
+    VndErrors.VndError dateParseExceptionHandler(DateParseException ex) {
+        return new VndErrors.VndError("error", errorMessage(ex.getField(), ex.getValue()));
     }
 
     @ResponseBody
     @ExceptionHandler(UserNameAlreadyExistException.class)
     @ResponseStatus(HttpStatus.NOT_MODIFIED)
-    VndErrors userNameAlreadyExistExceptionHandler(UserNameAlreadyExistException ex) {
-        return new VndErrors("validation_error", ex.getMessage());
+    VndErrors.VndError userNameAlreadyExistExceptionHandler(UserNameAlreadyExistException ex) {
+        return new VndErrors.VndError("error", ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(EmailAlreadyExistException.class)
     @ResponseStatus(HttpStatus.NOT_MODIFIED)
-    VndErrors emailAlreadyExistExceptionHandler(EmailAlreadyExistException ex) {
-        return new VndErrors("validation_error", ex.getMessage());
+    VndErrors.VndError emailAlreadyExistExceptionHandler(EmailAlreadyExistException ex) {
+        return new VndErrors.VndError("error", ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(SendConfirmationEmailException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    VndErrors sendConfirmationEmailExceptionHandler(SendConfirmationEmailException ex) {
-        return new VndErrors("internal_error", ex.getMessage());
+    VndErrors.VndError sendConfirmationEmailExceptionHandler(SendConfirmationEmailException ex) {
+        return new VndErrors.VndError("error", ex.getMessage());
     }
 
     private String errorMessage(FieldError fieldError) {

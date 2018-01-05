@@ -1,6 +1,7 @@
 package com.hobbygo.api.hobbygoapi.restapi.dto;
 
 import com.hobbygo.api.hobbygoapi.model.validation.interfaces.PasswordMatches;
+import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidEmail;
 import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidPassword;
 
 import javax.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ public class CreateUserDto {
 
     @NotNull
     @Size(min = 1)
+    @ValidEmail
     private String email;
 
     @NotNull
