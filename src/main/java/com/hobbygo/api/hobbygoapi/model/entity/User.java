@@ -3,6 +3,7 @@ package com.hobbygo.api.hobbygoapi.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidEmail;
+import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidPassword;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -25,8 +26,8 @@ public class User {
     @NotNull
     @JsonDeserialize
     @NotEmpty
+    @ValidPassword
     private String password;
-    private String matchingPassword;
 
     @NotNull
     private String userName;
@@ -86,14 +87,6 @@ public class User {
     public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
-    }
-
-    public String getMatchingPassword() {
-        return matchingPassword;
-    }
-
-    public void setMatchingPassword(String matchingPassword) {
-        this.matchingPassword = matchingPassword;
     }
 
     public String getFullName() {
