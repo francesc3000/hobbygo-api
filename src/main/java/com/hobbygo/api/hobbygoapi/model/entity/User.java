@@ -26,7 +26,7 @@ public class User {
     @NotNull
     @JsonDeserialize
     @NotEmpty
-    @ValidPassword
+    //@ValidPassword
     private String password;
 
     @NotNull
@@ -35,12 +35,12 @@ public class User {
     @NotNull
     private String fullName;
 
-    @ValidEmail
+    //@ValidEmail
     @NotNull
     @NotEmpty
     private String email;
 
-    @NotNull
+    //@NotNull
     private String playerId;
 
     private boolean enabled;

@@ -1,4 +1,4 @@
-package com.hobbygo.api.hobbygoapi.configuration.security.exception;
+package com.hobbygo.api.hobbygoapi.restapi.exception;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 @JsonPropertyOrder({ "status", "message","links" })
-public class UserNonAuthorizated {
+public class UserNonAuthorizatedException {
     private int status;
     private String message;
     private List<Map<String,Object>> links;
 
-    public UserNonAuthorizated(int status, String message){
+    public UserNonAuthorizatedException(int status, String message){
         setStatus(status);
         setMessage(message);
         setLinks(new ArrayList<>());

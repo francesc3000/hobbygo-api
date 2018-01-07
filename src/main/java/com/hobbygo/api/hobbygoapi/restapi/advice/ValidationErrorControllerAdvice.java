@@ -15,8 +15,15 @@ public class ValidationErrorControllerAdvice {
     @ResponseBody
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    VndErrors.VndError userNotFoundExceptionHandler(UserNotFoundException ex) {
-        return new VndErrors.VndError("error", ex.getMessage());
+    VndErrors userNotFoundExceptionHandler(UserNotFoundException ex) {
+        return new VndErrors("error", ex.getMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(UserNotValidatedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    VndErrors userNotValidatedException(UserNotValidatedException ex) {
+        return new VndErrors("error", ex.getMessage());
     }
 
 /*
@@ -31,29 +38,29 @@ public class ValidationErrorControllerAdvice {
     @ResponseBody
     @ExceptionHandler(DateParseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    VndErrors.VndError dateParseExceptionHandler(DateParseException ex) {
-        return new VndErrors.VndError("error", errorMessage(ex.getField(), ex.getValue()));
+    VndErrors dateParseExceptionHandler(DateParseException ex) {
+        return new VndErrors("error", errorMessage(ex.getField(), ex.getValue()));
     }
 
     @ResponseBody
     @ExceptionHandler(UserNameAlreadyExistException.class)
-    @ResponseStatus(HttpStatus.NOT_MODIFIED)
-    VndErrors.VndError userNameAlreadyExistExceptionHandler(UserNameAlreadyExistException ex) {
-        return new VndErrors.VndError("error", ex.getMessage());
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    VndErrors userNameAlreadyExistExceptionHandler(UserNameAlreadyExistException ex) {
+        return new VndErrors("error", ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(EmailAlreadyExistException.class)
-    @ResponseStatus(HttpStatus.NOT_MODIFIED)
-    VndErrors.VndError emailAlreadyExistExceptionHandler(EmailAlreadyExistException ex) {
-        return new VndErrors.VndError("error", ex.getMessage());
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    VndErrors emailAlreadyExistExceptionHandler(EmailAlreadyExistException ex) {
+        return new VndErrors("error", ex.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(SendConfirmationEmailException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    VndErrors.VndError sendConfirmationEmailExceptionHandler(SendConfirmationEmailException ex) {
-        return new VndErrors.VndError("error", ex.getMessage());
+    VndErrors sendConfirmationEmailExceptionHandler(SendConfirmationEmailException ex) {
+        return new VndErrors("error", ex.getMessage());
     }
 
     private String errorMessage(FieldError fieldError) {

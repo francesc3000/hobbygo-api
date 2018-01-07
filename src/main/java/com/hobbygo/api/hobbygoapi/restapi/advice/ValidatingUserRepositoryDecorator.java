@@ -3,6 +3,7 @@ package com.hobbygo.api.hobbygoapi.restapi.advice;
 import com.hobbygo.api.hobbygoapi.dao.UserDao;
 import com.hobbygo.api.hobbygoapi.model.entity.User;
 import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotFoundException;
+import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotValidatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,12 @@ public class ValidatingUserRepositoryDecorator {
         return userOptional.orElseThrow(
                 () -> new UserNotFoundException(userName)
         );
+/*
+        if(!user.isEnabled())
+            throw new UserNotValidatedException(userName);
+
+        return user;
+        */
     }
 
 }

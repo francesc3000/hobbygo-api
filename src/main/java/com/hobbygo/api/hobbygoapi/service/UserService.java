@@ -16,10 +16,12 @@ import com.hobbygo.api.hobbygoapi.restapi.exception.SendConfirmationEmailExcepti
 import com.hobbygo.api.hobbygoapi.restapi.exception.UserNameAlreadyExistException;
 import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;

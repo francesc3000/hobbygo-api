@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hobbygo.api.hobbygoapi.configuration.security.exception.UserNonAuthorizated;
+import com.hobbygo.api.hobbygoapi.restapi.exception.UserNonAuthorizatedException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,16 +30,16 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
         //PrintWriter writer = response.getWriter();
         //writer.println("HTTP Status 401 : " + authException.getMessage());
 
-        UserNonAuthorizated userNonAuthorizated = new UserNonAuthorizated(
+        UserNonAuthorizatedException userNonAuthorizatedException = new UserNonAuthorizatedException(
                 HttpStatus.UNAUTHORIZED.value(),"Acceso Denegado"
         );
 
-        userNonAuthorizated.addLink("rel","self");
-        userNonAuthorizated.addLink("href",request.getRequestURL().toString());
+        userNonAuthorizatedException.addLink("rel","self");
+        userNonAuthorizatedException.addLink("href",request.getRequestURL().toString());
 
         OutputStream out = response.getOutputStream();
         com.fasterxml.jackson.databind.ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(out, userNonAuthorizated);
+        mapper.writeValue(out, userNonAuthorizatedException);
         out.flush();
     }
 

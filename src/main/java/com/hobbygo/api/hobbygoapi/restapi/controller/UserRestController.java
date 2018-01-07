@@ -63,11 +63,9 @@ public class UserRestController {
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserResource> getUserRoot() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+        if (!(authentication instanceof AnonymousAuthenticationToken))
             return getUser(authentication.getName());
-        }
 
-        //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         throw new UserNotFoundException(authentication.getName());
     }
 
