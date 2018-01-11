@@ -2,16 +2,15 @@ package com.hobbygo.api.hobbygoapi.restapi.controller;
 
 import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.model.entity.User;
+import com.hobbygo.api.hobbygoapi.model.registration.PasswordResetToken;
 import com.hobbygo.api.hobbygoapi.model.registration.VerificationToken;
 import com.hobbygo.api.hobbygoapi.restapi.advice.ValidatingUserRepositoryDecorator;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ContactDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.CreateUserDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyUserDto;
+import com.hobbygo.api.hobbygoapi.restapi.dto.PasswordDto;
 import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotFoundException;
-import com.hobbygo.api.hobbygoapi.restapi.resource.FactoryResource;
-import com.hobbygo.api.hobbygoapi.restapi.resource.PlayerResource;
-import com.hobbygo.api.hobbygoapi.restapi.resource.UserResource;
-import com.hobbygo.api.hobbygoapi.restapi.resource.VerificationTokenResource;
+import com.hobbygo.api.hobbygoapi.restapi.resource.*;
 import com.hobbygo.api.hobbygoapi.service.PlayerService;
 import com.hobbygo.api.hobbygoapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,16 +103,53 @@ public class UserRestController {
 
         switch (result){
             case UserService.TOKEN_VALID:
-                VerificationToken verificationToken = userService.findByToken(token);
+                VerificationToken verificationToken = userService.findByVerificationToken(token);
                 userService.newUserValidatedPhase2(verificationToken.getUser());
-                return ResponseEntity.ok(factoryResource.getTokenResource(verificationToken,result));
+                return ResponseEntity.ok(factoryResource.getVerificationTokenResource(verificationToken,result));
 
                 default:
                     return ResponseEntity.unprocessableEntity()
-                            .body(factoryResource.getTokenResource(new VerificationToken(token),result));
+                            .body(factoryResource.getVerificationTokenResource(new VerificationToken(token),result));
         }
     }
 
+    @RequestMapping(path = "/resetPassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Object> resetPassword(HttpServletRequest request, @RequestParam("email") String userEmail) {
+
+        userService.resetPassword(request, userEmail);
+
+        return ResponseEntity.ok(null);
+    }
+
+    @RequestMapping(path = "/changePassword", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PasswordResetTokenResource> changePassword(HttpServletRequest request,
+                                                                     @RequestParam("id") String id, @RequestParam("token") String token) {
+
+        String result = userService.validatePasswordResetToken(id, token);
+
+        switch (result){
+            case UserService.TOKEN_VALID:
+                PasswordResetToken passwordResetToken = userService.findByPasswordResetToken(token);
+                return ResponseEntity.ok(factoryResource.getChangePasswordTokenResource(passwordResetToken, result));
+
+            default:
+                return ResponseEntity.unprocessableEntity()
+                        .body(factoryResource.getChangePasswordTokenResource(new PasswordResetToken(token),result));
+        }
+    }
+
+    @RequestMapping(path = "/updatePassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserResource> savePassword(HttpServletRequest request,
+                                                                   @Valid PasswordDto passwordDto) {
+
+        User user =
+                (User) SecurityContextHolder.getContext()
+                        .getAuthentication().getPrincipal();
+
+        userService.changeUserPassword(user, passwordDto.getNewPassword());
+
+        return ResponseEntity.ok(factoryResource.getUserResource(user));
+    }
 
     @PreAuthorize(ADMIN)
     @RequestMapping(path = "/{userName}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)

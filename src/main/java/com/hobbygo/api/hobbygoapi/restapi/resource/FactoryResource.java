@@ -5,6 +5,7 @@ import com.hobbygo.api.hobbygoapi.model.entity.Evento;
 import com.hobbygo.api.hobbygoapi.model.entity.Group;
 import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.model.entity.User;
+import com.hobbygo.api.hobbygoapi.model.registration.PasswordResetToken;
 import com.hobbygo.api.hobbygoapi.model.registration.VerificationToken;
 import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.*;
 import com.hobbygo.api.hobbygoapi.security.EventoSecurityService;
@@ -54,9 +55,15 @@ public class FactoryResource {
         return assembler.toResource(group);
     }
 
-    public VerificationTokenResource getTokenResource(VerificationToken verificationTokenToken, String tokenStatus) {
-        VerificationTokenResourceAssembler assembler = new VerificationTokenResourceAssembler(verificationTokenToken, tokenStatus);
+    public VerificationTokenResource getVerificationTokenResource(VerificationToken verificationToken, String tokenStatus) {
+        VerificationTokenResourceAssembler assembler = new VerificationTokenResourceAssembler(verificationToken, tokenStatus);
 
-        return assembler.toResource(verificationTokenToken);
+        return assembler.toResource(verificationToken);
+    }
+
+    public PasswordResetTokenResource getChangePasswordTokenResource(PasswordResetToken passwordResetToken, String tokenStatus) {
+        PasswordResetTokenResourceAssembler assembler = new PasswordResetTokenResourceAssembler(passwordResetToken, tokenStatus);
+
+        return assembler.toResource(passwordResetToken);
     }
 }

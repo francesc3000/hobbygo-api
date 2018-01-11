@@ -63,6 +63,13 @@ public class ValidationErrorControllerAdvice {
         return new VndErrors("error", ex.getMessage());
     }
 
+    @ResponseBody
+    @ExceptionHandler(EmailNoExistException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    VndErrors emailNoExistExceptionHandler(EmailNoExistException ex) {
+        return new VndErrors("error", ex.getMessage());
+    }
+
     private String errorMessage(FieldError fieldError) {
         return errorMessage(fieldError.getField(), fieldError.getRejectedValue());
     }

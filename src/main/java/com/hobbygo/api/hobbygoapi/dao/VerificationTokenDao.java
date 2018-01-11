@@ -1,7 +1,9 @@
 package com.hobbygo.api.hobbygoapi.dao;
 
 import com.hobbygo.api.hobbygoapi.model.entity.User;
+import com.hobbygo.api.hobbygoapi.model.registration.PasswordResetToken;
 import com.hobbygo.api.hobbygoapi.model.registration.VerificationToken;
+import com.hobbygo.api.hobbygoapi.repository.PasswordResetTokenRepository;
 import com.hobbygo.api.hobbygoapi.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,29 +15,29 @@ import java.util.stream.Stream;
 public class VerificationTokenDao {
 
     @Autowired
-    private VerificationTokenRepository tokenRepository;
+    private VerificationTokenRepository verificationTokenRepository;
 
     public VerificationToken findByToken(String token){
-        return tokenRepository.findByToken(token);
+        return verificationTokenRepository.findByToken(token);
     }
 
     public VerificationToken findByUser(User user){
-        return tokenRepository.findByUser(user);
+        return verificationTokenRepository.findByUser(user);
     }
 
     public Stream<VerificationToken> findAllByExpiryDateLessThan(LocalDate now){
-        return tokenRepository.findAllByExpiryDateLessThan(now);
+        return verificationTokenRepository.findAllByExpiryDateLessThan(now);
     }
 
     public void deleteByExpiryDateLessThan(LocalDate now){
-        tokenRepository.deleteByExpiryDateLessThan(now);
+        verificationTokenRepository.deleteByExpiryDateLessThan(now);
     }
 
     public VerificationToken save(VerificationToken myToken) {
-        return tokenRepository.save(myToken);
+        return verificationTokenRepository.save(myToken);
     }
 
     public void delete(VerificationToken verificationToken) {
-        tokenRepository.delete(verificationToken);
+        verificationTokenRepository.delete(verificationToken);
     }
 }

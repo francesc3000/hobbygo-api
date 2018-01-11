@@ -6,18 +6,15 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
-import java.util.Calendar;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
 
-@Document(collection = "verificationToken")
-public class VerificationToken {
-
+@Document(collection = "passwordResetToken")
+public class PasswordResetToken {
     private static final int EXPIRATION = 60 * 24;
 
     @Id
-    private String id;
+    private Long id;
 
     private String token;
 
@@ -26,18 +23,18 @@ public class VerificationToken {
 
     private LocalDateTime expiryDate;
 
-    public VerificationToken() {
+    public PasswordResetToken() {
         super();
     }
 
-    public VerificationToken(final String token) {
+    public PasswordResetToken(final String token) {
         super();
 
         this.token = token;
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
-    public VerificationToken(final String token, final User user) {
+    public PasswordResetToken(final String token, final User user) {
         super();
 
         this.token = token;
@@ -45,7 +42,8 @@ public class VerificationToken {
         this.expiryDate = calculateExpiryDate(EXPIRATION);
     }
 
-    public String getId() {
+    //
+    public Long getId() {
         return id;
     }
 
@@ -108,7 +106,7 @@ public class VerificationToken {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final VerificationToken other = (VerificationToken) obj;
+        final PasswordResetToken other = (PasswordResetToken) obj;
         if (expiryDate == null) {
             if (other.expiryDate != null) {
                 return false;
@@ -139,5 +137,4 @@ public class VerificationToken {
         builder.append("Token [String=").append(token).append("]").append("[Expires").append(expiryDate).append("]");
         return builder.toString();
     }
-
 }
