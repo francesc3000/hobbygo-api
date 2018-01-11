@@ -1,5 +1,6 @@
 package com.hobbygo.api.hobbygoapi.restapi.dto;
 
+import com.hobbygo.api.hobbygoapi.model.validation.interfaces.PasswordMatches;
 import com.hobbygo.api.hobbygoapi.model.validation.interfaces.ValidPassword;
 
 public class PasswordDto {

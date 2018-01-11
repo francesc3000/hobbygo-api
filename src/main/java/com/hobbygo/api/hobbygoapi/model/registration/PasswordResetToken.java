@@ -14,7 +14,7 @@ public class PasswordResetToken {
     private static final int EXPIRATION = 60 * 24;
 
     @Id
-    private Long id;
+    private String id;
 
     private String token;
 
@@ -43,7 +43,7 @@ public class PasswordResetToken {
     }
 
     //
-    public Long getId() {
+    public String getId() {
         return id;
     }
 

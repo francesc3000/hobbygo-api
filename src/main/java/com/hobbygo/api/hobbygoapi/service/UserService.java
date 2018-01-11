@@ -184,7 +184,7 @@ public class UserService {
     }
 
     private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
-        final String url = contextPath + "/user/changePassword?id=" + user.getId() + "&token=" + token;
+        final String url = contextPath + "/api/v1/users/changePassword?id=" + user.getId() + "&token=" + token;
         final String message = messages.getMessage("message.resetPassword", null, locale);
         return constructEmail("Reset Password", message + " \r\n" + url, user);
     }
@@ -204,7 +204,7 @@ public class UserService {
 
     public String validatePasswordResetToken(String id, String token) {
         final PasswordResetToken passToken = passwordResetTokenDao.findByToken(token);
-        if ((passToken == null) || (passToken.getUser().getId() != id))
+        if ((passToken == null) || !(passToken.getUser().getId().equals(id)))
             return TOKEN_INVALID;
 
 

@@ -1,14 +1,14 @@
 package com.hobbygo.api.hobbygoapi.restapi;
 
-import com.hobbygo.api.model.entity.Address;
-import com.hobbygo.api.model.entity.Evento;
-import com.hobbygo.api.model.entity.Member;
-import com.hobbygo.api.model.entity.Player;
-import com.hobbygo.api.restapi.controller.RootRestController;
-import com.hobbygo.api.restapi.resource.FactoryResource;
-import com.hobbygo.api.restapi.resource.assembler.EventoResourceAssembler;
-import com.hobbygo.api.security.EventoSecurityService;
-import com.hobbygo.api.service.EventoService;
+import com.hobbygo.api.hobbygoapi.model.entity.Address;
+import com.hobbygo.api.hobbygoapi.model.entity.Evento;
+import com.hobbygo.api.hobbygoapi.model.entity.Member;
+import com.hobbygo.api.hobbygoapi.model.entity.Player;
+import com.hobbygo.api.hobbygoapi.restapi.controller.RootRestController;
+import com.hobbygo.api.hobbygoapi.restapi.resource.FactoryResource;
+import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.EventoResourceAssembler;
+import com.hobbygo.api.hobbygoapi.security.EventoSecurityService;
+import com.hobbygo.api.hobbygoapi.service.EventoService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.hobbygo.api.model.constants.Hobby.PADEL;
+import static com.hobbygo.api.hobbygoapi.model.constants.Hobby.PADEL;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;

@@ -139,8 +139,7 @@ public class UserRestController {
     }
 
     @RequestMapping(path = "/updatePassword", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserResource> savePassword(HttpServletRequest request,
-                                                                   @Valid PasswordDto passwordDto) {
+    public ResponseEntity<UserResource> savePassword(HttpServletRequest request, @Valid PasswordDto passwordDto) {
 
         User user =
                 (User) SecurityContextHolder.getContext()
