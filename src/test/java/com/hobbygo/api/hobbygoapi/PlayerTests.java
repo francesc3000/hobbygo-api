@@ -1,8 +1,7 @@
 package com.hobbygo.api.hobbygoapi;
 
+import com.hobbygo.api.hobbygoapi.model.constants.Hobby;
 import com.hobbygo.api.hobbygoapi.model.entity.*;
-import com.hobbygo.api.model.constants.Hobby;
-import com.hobbygo.api.model.entity.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

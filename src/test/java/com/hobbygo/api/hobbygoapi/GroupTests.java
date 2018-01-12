@@ -1,13 +1,13 @@
 package com.hobbygo.api.hobbygoapi;
 
-import com.hobbygo.api.model.entity.Group;
-import com.hobbygo.api.model.entity.Player;
+import com.hobbygo.api.hobbygoapi.model.entity.Group;
+import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static com.hobbygo.api.model.constants.Hobby.PADEL;
+import static com.hobbygo.api.hobbygoapi.model.constants.Hobby.PADEL;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest

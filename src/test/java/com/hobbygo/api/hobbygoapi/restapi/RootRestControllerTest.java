@@ -69,9 +69,10 @@ public class RootRestControllerTest {
     public void shouldReturnDefaultMessage() throws Exception {
         String userName = "francesc3000";
 
+        Player player = new Player("1","francesc3000@gmail.com",userName,PADEL);
         Evento evento =
                 new Evento("1",
-                        new Member(new Player("1",userName,PADEL),null),
+                        new Member(player,null),
                         "Evento 1", "www.avatar.es",true,
                         LocalDateTime.now(),LocalDateTime.now().plusDays(3),
                         new Address("Calle del Pepino","","Barcelona",
@@ -81,13 +82,13 @@ public class RootRestControllerTest {
         List<Evento> eventoList = new ArrayList<>();
         eventoList.add(evento);
 
-        EventoResourceAssembler assembler = new EventoResourceAssembler(userName,eventoSecurityService);
-
         when(eventoService.getEventosByDistance(0,0,0))
                 .thenReturn(eventoList);
 
         when(eventoSecurityService.canModifyEvento(userName, evento.getId()))
                 .thenReturn(true);
+
+        EventoResourceAssembler assembler = new EventoResourceAssembler(userName,player,eventoSecurityService);
 
         when(factoryResource.getEventoResource(userName,evento))
                 //.thenReturn(new EventoResource(userName, evento, eventoSecurityService));
