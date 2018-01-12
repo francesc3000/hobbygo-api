@@ -99,6 +99,8 @@ public class RootRestControllerTest {
                 .andExpect(status().isUnauthorized())
                 //.andExpect(content().string(containsString("/api/v1/users")))
                 .andDo(document("home"));
+
+        assert(2==2);
     }
 
 }
