@@ -5,6 +5,7 @@ import com.hobbygo.api.hobbygoapi.model.entity.Evento;
 import com.hobbygo.api.hobbygoapi.model.entity.Member;
 import com.hobbygo.api.hobbygoapi.model.entity.Player;
 import com.hobbygo.api.hobbygoapi.restapi.controller.RootRestController;
+import com.hobbygo.api.hobbygoapi.restapi.resource.EventoResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.FactoryResource;
 import com.hobbygo.api.hobbygoapi.restapi.resource.assembler.EventoResourceAssembler;
 import com.hobbygo.api.hobbygoapi.security.EventoSecurityService;
@@ -28,11 +29,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.hobbygo.api.hobbygoapi.model.constants.Hobby.PADEL;
+import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -57,19 +60,19 @@ public class RootRestControllerTest {
     @MockBean
     private EventoSecurityService eventoSecurityService;
 
+    private List<Evento> eventoList;
+
+    private String userName = "francesc3000";
+
+    private Player player;
+
     @Before
     public void setUp() {
 
         initMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
-    }
 
-
-    @Test
-    public void shouldReturnDefaultMessage() throws Exception {
-        String userName = "francesc3000";
-
-        Player player = new Player("1","francesc3000@gmail.com",userName,PADEL);
+        player = new Player("1","francesc3000@gmail.com",userName,PADEL);
         Evento evento =
                 new Evento("1",
                         new Member(player,null),
@@ -79,28 +82,45 @@ public class RootRestControllerTest {
                                 "España","08940",new Float(40),new Float(165)),
                         4,PADEL);
 
-        List<Evento> eventoList = new ArrayList<>();
+        eventoList = new ArrayList<>();
         eventoList.add(evento);
+    }
 
-        when(eventoService.getEventosByDistance(0,0,0))
-                .thenReturn(eventoList);
+    @Test
+    public void shouldReturnDefaultMessage(){}
 
-        when(eventoSecurityService.canModifyEvento(userName, evento.getId()))
+
+    @Test
+    public void shouldReturnRootMessage() throws Exception {
+
+        when(eventoSecurityService.canModifyEvento(userName, eventoList.get(0).getId()))
                 .thenReturn(true);
 
         EventoResourceAssembler assembler = new EventoResourceAssembler(userName,player,eventoSecurityService);
 
-        when(factoryResource.getEventoResource(userName,evento))
-                //.thenReturn(new EventoResource(userName, evento, eventoSecurityService));
-                .thenReturn(assembler.toResource(evento));
-
+        when(factoryResource.getEventoResource(userName,eventoList.get(0)))
+                .thenReturn(new EventoResource(eventoList.get(0)));
+                //.thenReturn(assembler.toResource(evento));
+/*
         this.mockMvc.perform(get("/api/v1").accept(MediaTypes.HAL_JSON_VALUE))
                 .andDo(print())
-                .andExpect(status().isUnauthorized())
-                //.andExpect(content().string(containsString("/api/v1/users")))
-                .andDo(document("home"));
-
-        assert(2==2);
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("/api/v1/users")))
+                .andDo(document("home"))
+        ;
+        */
+        this.mockMvc.perform(get("/api/v1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.links",hasSize(3)));
     }
 
+    @Test
+    public void shouldReturnEventoOnDistance() throws Exception{
+        when(eventoService.getEventosByDistance(0,0,0))
+                .thenReturn(eventoList);
+
+        this.mockMvc.perform(get("/api/v1/distance"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)));
+    }
 }
