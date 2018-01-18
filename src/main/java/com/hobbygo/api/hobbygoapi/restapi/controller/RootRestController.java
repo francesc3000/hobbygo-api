@@ -35,9 +35,9 @@ public class RootRestController {
 
 
     @RequestMapping(value = "/distance", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ResourceCollection<EventoResource>> getFilterEventos(@RequestHeader(value="lon") float longitude,
-                                                                               @RequestHeader(value="lat") float latitude,
-                                                                               @RequestHeader(value="dis") int distance) {
+    public ResponseEntity<ResourceCollection<EventoResource>> getFilterEventos(@RequestParam(value="lon") float longitude,
+                                                                               @RequestParam(value="lat") float latitude,
+                                                                               @RequestParam(value="dis") int distance) {
 
         ResourceCollection<EventoResource> resourceCollection = new ResourceCollection<>(
                 eventoService.getEventosByDistance(longitude, latitude, distance)
@@ -62,9 +62,9 @@ public class RootRestController {
     }
 
     @RequestMapping(value = "/distanceCount", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Integer> getCountFilterEventos(@RequestHeader(value="lon") float longitude,
-                                                         @RequestHeader(value="lat") float latitude,
-                                                         @RequestHeader(value="dis") int distance) {
+    public ResponseEntity<Integer> getCountFilterEventos(@RequestParam(value="lon") float longitude,
+                                                         @RequestParam(value="lat") float latitude,
+                                                         @RequestParam(value="dis") int distance) {
         return ResponseEntity.ok(eventoService.getCountEventosByDistance(longitude,latitude,distance));
     }
 }

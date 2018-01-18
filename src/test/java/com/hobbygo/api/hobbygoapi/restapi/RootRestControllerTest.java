@@ -13,17 +13,20 @@ import com.hobbygo.api.hobbygoapi.service.EventoService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +35,6 @@ import static com.hobbygo.api.hobbygoapi.model.constants.Hobby.PADEL;
 import static com.jayway.jsonassert.impl.matcher.IsCollectionWithSize.hasSize;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,11 +68,16 @@ public class RootRestControllerTest {
 
     private Player player;
 
+    private Principal mockPrincipal;
+
     @Before
     public void setUp() {
 
         initMocks(this);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
+
+        mockPrincipal = Mockito.mock(Principal.class);
+        when(mockPrincipal.getName()).thenReturn(userName);
 
         player = new Player("1","francesc3000@gmail.com",userName,PADEL);
         Evento evento =
@@ -85,10 +92,6 @@ public class RootRestControllerTest {
         eventoList = new ArrayList<>();
         eventoList.add(evento);
     }
-
-    @Test
-    public void shouldReturnDefaultMessage(){}
-
 
     @Test
     public void shouldReturnRootMessage() throws Exception {
@@ -119,8 +122,20 @@ public class RootRestControllerTest {
         when(eventoService.getEventosByDistance(0,0,0))
                 .thenReturn(eventoList);
 
-        this.mockMvc.perform(get("/api/v1/distance"))
+        when(factoryResource.getEventoResource(userName,eventoList.get(0)))
+                .thenReturn(new EventoResource(eventoList.get(0)));
+
+        MultiValueMap<String,String> params = new LinkedMultiValueMap<>();
+
+        params.add("lon","10");
+        params.add("lat","0");
+        params.add("dis","0");
+
+        this.mockMvc.perform(get("/api/v1/distance")
+                .params(params)
+                .principal(mockPrincipal))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)));
+                .andExpect(jsonPath("$.data",hasSize(0)));
     }
 }
