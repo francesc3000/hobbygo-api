@@ -24,7 +24,7 @@ public class UserDao {
         return userRepository.findByUserName(userName);
     }
 
-    public Optional<User> findOneByUserName(String username) {
+    public User findOneByUserName(String username) {
         return userRepository.findOneByUserName(username);
     }
 

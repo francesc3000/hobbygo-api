@@ -1,5 +1,6 @@
 package com.hobbygo.api.hobbygoapi.configuration.security.oAuth2.configuration;
 
+
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +13,6 @@ public class ApplicationConfigurationProperties {
     private String clientId;
 
     private String clientSecret;
-
-    private String[] onPopStateUrls;
 
     public String[] getDefaultUserRoles() {
         return defaultUserRoles;
@@ -37,13 +36,5 @@ public class ApplicationConfigurationProperties {
 
     public void setClientSecret(String clientSecret) {
         this.clientSecret = clientSecret;
-    }
-
-    public String[] getOnPopStateUrls() {
-        return onPopStateUrls;
-    }
-
-    public void setOnPopStateUrls(String[] onPopStateUrls) {
-        this.onPopStateUrls = onPopStateUrls;
     }
 }

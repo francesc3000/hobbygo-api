@@ -1,6 +1,5 @@
 package com.hobbygo.api.hobbygoapi.service;
 
-import com.hobbygo.api.hobbygoapi.configuration.security.oAuth2.configuration.ApplicationConfigurationProperties;
 import com.hobbygo.api.hobbygoapi.dao.PasswordResetTokenDao;
 import com.hobbygo.api.hobbygoapi.dao.PlayerDao;
 import com.hobbygo.api.hobbygoapi.dao.UserDao;
@@ -39,10 +38,11 @@ public class UserService {
     public static final String TOKEN_INVALID = "invalidToken";
     public static final String TOKEN_EXPIRED = "expired";
     public static final String TOKEN_VALID = "valid";
-
+/*
+//TODO:Quitar comentario
     @Autowired
     private ApplicationConfigurationProperties configurationProperties;
-
+*/
     @Autowired
     private UserDao userDao;
 
@@ -78,9 +78,12 @@ public class UserService {
         if(userDao.findByEmail(createUserDto.getEmail())!=null)
             throw new EmailAlreadyExistException(createUserDto.getEmail());
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //TODO:Quitar lo de continuación en roles
         User user = new User(createUserDto.getEmail(), createUserDto.getFullName(), createUserDto.getUserName(),
-                createUserDto.getPassword(),
-                configurationProperties.getDefaultUserRoles(),request.getLocale());
+                passwordEncoder.encode(createUserDto.getPassword()),
+                //configurationProperties.getDefaultUserRoles(),request.getLocale());
+                null,request.getLocale());
 
         User createdUser = userDao.save(user);
 

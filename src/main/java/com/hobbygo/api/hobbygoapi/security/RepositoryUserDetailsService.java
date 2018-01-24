@@ -21,10 +21,11 @@ public class RepositoryUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> userOptional = userDao.findByUserName(username);
 
-        if (userOptional.isPresent()) {
+        if (userOptional.isPresent())
             return new UserDetailsDecorator(userOptional.get());
-        }
+
 
         throw new UsernameNotFoundException(username);
     }
+
 }

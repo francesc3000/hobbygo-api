@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-@Configuration
+//@Configuration
 public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
     @Override
@@ -38,7 +38,7 @@ public class CustomBasicAuthenticationEntryPoint extends BasicAuthenticationEntr
         userNonAuthorizatedException.addLink("href",request.getRequestURL().toString());
 
         OutputStream out = response.getOutputStream();
-        com.fasterxml.jackson.databind.ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(out, userNonAuthorizatedException);
         out.flush();
     }

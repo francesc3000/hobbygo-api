@@ -47,7 +47,7 @@ public class RegistrationListener implements ApplicationListener<OnRegistrationC
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
         //TODO: Recuperar correctamente getContext en Clase:UserService Metodo:registerNewUserAccount
-        final String confirmationUrl = /*event.getAppUrl()*/ "http://localhost:8443/api/v1/users" + "/registrationConfirm?token=" + token;
+        final String confirmationUrl = /*event.getAppUrl()*/ "https://localhost:8443/api/v1/users" + "/registrationConfirm?token=" + token;
         final String message = messages.getMessage("message.regSucc", null, event.getLocale());
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
