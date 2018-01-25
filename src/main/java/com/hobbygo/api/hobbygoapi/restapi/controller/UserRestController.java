@@ -11,6 +11,7 @@ import com.hobbygo.api.hobbygoapi.restapi.dto.ModifyUserDto;
 import com.hobbygo.api.hobbygoapi.restapi.dto.PasswordDto;
 import com.hobbygo.api.hobbygoapi.restapi.exception.UserNotFoundException;
 import com.hobbygo.api.hobbygoapi.restapi.resource.*;
+import com.hobbygo.api.hobbygoapi.service.FacebookService;
 import com.hobbygo.api.hobbygoapi.service.PlayerService;
 import com.hobbygo.api.hobbygoapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.social.facebook.api.Facebook;
+import org.springframework.social.facebook.api.PagedList;
+import org.springframework.social.facebook.api.Post;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +55,9 @@ public class UserRestController {
 
     @Autowired
     private FactoryResource factoryResource;
+
+    @Autowired
+    FacebookService facebookService;
 
     @PreAuthorize(ADMIN + " or " + OWNER)
     @RequestMapping(path = "/{userName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -194,5 +202,20 @@ public class UserRestController {
         Player playerRet = playerService.request4Relationship(user, friendUserName);
 
         return ResponseEntity.ok(factoryResource.getPlayerResource(playerRet));
+    }
+
+    @RequestMapping(value = "/createFacebookAuthorization", method = RequestMethod.GET)
+    public String createFacebookAuthorization(){
+        return facebookService.createFacebookAuthorizationURL();
+    }
+
+    @RequestMapping(value = "/facebook", method = RequestMethod.GET)
+    public void createFacebookAccessToken(@RequestParam("code") String code){
+        facebookService.createFacebookAccessToken(code);
+    }
+
+    @RequestMapping(value = "/facebook/getName", method = RequestMethod.GET)
+    public String getNameResponse(){
+        return facebookService.getName();
     }
 }

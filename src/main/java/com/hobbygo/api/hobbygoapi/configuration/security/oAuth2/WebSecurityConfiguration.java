@@ -45,6 +45,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/v1/distanceCount").permitAll()
                 .antMatchers("/api/v1/users/changePassword").permitAll()
                 .antMatchers("/api/v1/users/updatePassword").permitAll()
+                .antMatchers("/api/v1/users/createFacebookAuthorization").permitAll()
                 //.antMatchers("/api/v1/users/changePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
                 //.antMatchers("/api/v1/users/updatePassword").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
                 //.antMatchers("/api/**").hasRole("OWNER")
