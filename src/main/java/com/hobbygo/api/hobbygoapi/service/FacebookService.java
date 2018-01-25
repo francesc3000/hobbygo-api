@@ -22,14 +22,14 @@ public class FacebookService {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         OAuth2Operations oauthOperations = connectionFactory.getOAuthOperations();
         OAuth2Parameters params = new OAuth2Parameters();
-        params.setRedirectUri("https://hobbygo-api.herokuapp.com/facebook");
+        params.setRedirectUri("https://hobbygo-api.herokuapp.com/api/v1/users/facebook");
         params.setScope("public_profile,email,user_birthday");
         return oauthOperations.buildAuthorizeUrl(params);
     }
 
     public void createFacebookAccessToken(String code) {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
-        AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, "https://hobbygo-api.herokuapp.com/facebook", null);
+        AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, "https://hobbygo-api.herokuapp.com/api/v1/users/facebook", null);
         accessToken = accessGrant.getAccessToken();
     }
 
