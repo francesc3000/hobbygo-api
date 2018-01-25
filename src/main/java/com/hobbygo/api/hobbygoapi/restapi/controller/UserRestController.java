@@ -210,8 +210,10 @@ public class UserRestController {
     }
 
     @RequestMapping(value = "/facebook", method = RequestMethod.GET)
-    public void createFacebookAccessToken(@RequestParam("code") String code){
+    public String createFacebookAccessToken(@RequestParam("code") String code){
         facebookService.createFacebookAccessToken(code);
+
+        return code;
     }
 
     @RequestMapping(value = "/facebook/getName", method = RequestMethod.GET)

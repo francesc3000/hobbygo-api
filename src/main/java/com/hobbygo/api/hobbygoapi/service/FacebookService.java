@@ -1,5 +1,6 @@
 package com.hobbygo.api.hobbygoapi.service;
 
+import com.hobbygo.api.hobbygoapi.model.mail.ApplicationLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.api.impl.FacebookTemplate;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class FacebookService {
+    private static final ApplicationLogger logger = ApplicationLogger.getInstance();
+
     @Value("${spring.social.facebook.appId}")
     String facebookAppId;
     @Value("${spring.social.facebook.appSecret}")
@@ -31,6 +34,7 @@ public class FacebookService {
         FacebookConnectionFactory connectionFactory = new FacebookConnectionFactory(facebookAppId, facebookSecret);
         AccessGrant accessGrant = connectionFactory.getOAuthOperations().exchangeForAccess(code, "https://hobbygo-api.herokuapp.com/api/v1/users/facebook", null);
         accessToken = accessGrant.getAccessToken();
+        logger.info(accessToken);
     }
 
     public String getName() {
