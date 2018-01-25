@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PlayerTests {
+public class PlayerTest {
 
 	Player player = new Player("1","francesc3000@gmail.com","francesc3000", "http://avatar.es", Hobby.PADEL);
 

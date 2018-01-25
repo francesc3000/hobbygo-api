@@ -11,7 +11,7 @@ import static com.hobbygo.api.hobbygoapi.model.constants.Hobby.PADEL;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class GroupTests {
+public class GroupTest {
 
 	Player player = new Player("1","francesc3000@gmail.com","francesc3000", "http://avatar.es", PADEL);
 	Group group;
