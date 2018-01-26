@@ -37,6 +37,7 @@ dependencies {
 	compile group: 'org.passay', name: 'passay', version: '1.0'
 	compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.0.0'
 	compile("org.springframework.social:spring-social-facebook")
+	compile('com.github.spring-social:spring-social-google:latest.release')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testCompile('org.springframework.security:spring-security-test')
